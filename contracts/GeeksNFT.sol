@@ -80,6 +80,11 @@ contract GeeksNFT is ERC721, Ownable, ERC721Enumerable {
         mintPrice = price;
     }
 
+    function withdraw() public onlyOwner {
+        address to = owner();
+        payable(to).transfer(address(this).balance);
+    }
+
     function _beforeTokenTransfer(address from,address to,uint256 tokenId) internal override(ERC721, ERC721Enumerable) {
         super._beforeTokenTransfer(from, to, tokenId);
     }
