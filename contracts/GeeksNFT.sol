@@ -14,12 +14,15 @@ contract GeeksNFT is ERC721, Ownable, ERC721Enumerable {
     uint256 public maxSupply;
     uint256 public maxNFTsPerMint;
     bool public salePaused;
+    uint256 public mintPrice;
 
-    constructor(string memory _waitingForUnveilUri, uint256 _maxSupply, uint256 _maxNFTsPerMint) ERC721('GeeksNFT', 'GNFT'){
+    constructor(string memory _waitingForUnveilUri, uint256 _maxSupply, uint256 _maxNFTsPerMint, uint256 initialMintPrice) 
+    ERC721('GeeksNFT', 'GNFT'){
         waitingForUnveilUri = _waitingForUnveilUri;
         maxSupply = _maxSupply;
         maxNFTsPerMint = _maxNFTsPerMint;
         salePaused = true;
+        mintPrice = initialMintPrice;
     }
 
     modifier whenSaleNotPaused {
@@ -27,8 +30,9 @@ contract GeeksNFT is ERC721, Ownable, ERC721Enumerable {
         _;
     }
 
-    function mintNFT(uint256 amount) public whenSaleNotPaused {
+    function mintNFT(uint256 amount) public payable whenSaleNotPaused {
         require(amount <= maxNFTsPerMint, 'Amount is greater than allowed');
+        require(msg.value >= amount * mintPrice, 'ETH sent are not enough to mint');
 
         uint256 currentSupply = totalSupply();
 
@@ -70,6 +74,10 @@ contract GeeksNFT is ERC721, Ownable, ERC721Enumerable {
 
     function unpauseSale() public onlyOwner {
         salePaused = false;
+    }
+
+    function updateMintPrice(uint256 price) public onlyOwner {
+        mintPrice = price;
     }
 
     function _beforeTokenTransfer(address from,address to,uint256 tokenId) internal override(ERC721, ERC721Enumerable) {

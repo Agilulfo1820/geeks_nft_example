@@ -8,6 +8,7 @@ contract('GeeksNFT', (accounts) => {
     before(async () => {
         contract = await GeeksNFT.deployed()
         await contract.unpauseSale()
+        await contract.updateMintPrice(0)
     })
 
     it('Test that name and symbol are setted correctly', async () => {

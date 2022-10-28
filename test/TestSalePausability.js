@@ -7,6 +7,7 @@ contract('GeeksNFT', (accounts) => {
     let contract
     before(async () => {
         contract = await GeeksNFT.deployed()
+        await contract.updateMintPrice(0)
     })
 
     it('Is possible to mint only when sale is not paused', async () => {
