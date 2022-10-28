@@ -2,7 +2,7 @@ const GeeksNFT = artifacts.require('GeeksNFT')
 const truffleAssertions = require('truffle-assertions')
 
 contract('GeeksNFT', (accounts) => {
-    const deployerAccount = accounts[1]
+    const deployerAccount = accounts[0]
     
     let contract
     before(async () => {

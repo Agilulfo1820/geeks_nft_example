@@ -3,8 +3,9 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract GeeksNFT is ERC721 {
+contract GeeksNFT is ERC721, Ownable {
     using Strings for uint256;
 
     uint256 public totalSupply;
@@ -34,7 +35,7 @@ contract GeeksNFT is ERC721 {
         return baseUri;
     }
 
-    function setBaseUri(string memory newBaseUri) public {
+    function setBaseUri(string memory newBaseUri) public onlyOwner {
         baseUri = newBaseUri;
     }
 }

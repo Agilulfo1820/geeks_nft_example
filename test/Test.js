@@ -2,7 +2,7 @@ const GeeksNFT = artifacts.require('GeeksNFT')
 const truffleAssertions = require('truffle-assertions')
 
 contract('Minting', (accounts) => {
-    const deployerAccount = accounts[1]
+    const deployerAccount = accounts[0]
     
     let contract
     before(async () => {
@@ -37,5 +37,13 @@ contract('Minting', (accounts) => {
 
         resultUri = await contract.tokenURI(newMintedTokenId)
         assert(resultUri === newBaseUri + newMintedTokenId + '.json', 'Uri should be baseUri + tokenId')
+    })
+
+    it('Only owner should be able to update baseUri', async () => {
+        await truffleAssertions.reverts(contract.setBaseUri('https://new-uri.com/token/', {from: accounts[1]}))
+
+        await contract.setBaseUri('https://new-uri.com/token/', {from: deployerAccount})
+        let newBaseUri = await contract.baseUri()
+        assert(newBaseUri === 'https://new-uri.com/token/', 'Base uri should be updated')
     })
 })
