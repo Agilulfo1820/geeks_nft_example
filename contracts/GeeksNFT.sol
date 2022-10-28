@@ -43,6 +43,10 @@ contract GeeksNFT is ERC721, Ownable, ERC721Enumerable {
         }
     }
 
+    function updateWaitingForUnveilUri(string memory uri) public onlyOwner {
+        waitingForUnveilUri = uri;
+    }
+
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
         _requireMinted(tokenId);
 
@@ -89,7 +93,7 @@ contract GeeksNFT is ERC721, Ownable, ERC721Enumerable {
         super._beforeTokenTransfer(from, to, tokenId);
     }
 
-     function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 }

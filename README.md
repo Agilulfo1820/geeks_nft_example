@@ -34,3 +34,4 @@ Per deployare lo smart contract usare il comando `truffle migrate --reset --netw
 Per verificare lo smart contract su Etherscan usare il comando `truffle run verify {ContractName} --network {networkName}`.
 
 # Deployed addresses
+[0x35a689cecc6023ce8a89df04F5e40D86462b8783] (https://polygonscan.com/address/0x35a689cecc6023ce8a89df04F5e40D86462b8783)

@@ -53,6 +53,12 @@
        provider: () => new HDWalletProvider([process.env.PRIVATE_KEY], `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`),
        gas: 10000000,
        confirmations: 2,
+     },
+     polygon: {
+       network_id: 137,
+       provider: () => new HDWalletProvider([process.env.PRIVATE_KEY], `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`),
+       gas: 4465030,
+       gasPrice: 80000000000,
      }
    },
  
@@ -77,7 +83,8 @@
    },
    plugins: ['truffle-plugin-verify',  'truffle-contract-size'],
    api_keys: {
-     etherscan: process.env.ETHERSCAN_API_KEY
+     etherscan: process.env.ETHERSCAN_API_KEY,
+     polygonscan: process.env.POLYGONSCAN_API_KEY
    }
  };
  
