@@ -7,6 +7,7 @@ contract('GeeksNFT', (accounts) => {
     let contract
     before(async () => {
         contract = await GeeksNFT.deployed()
+        await contract.unpauseSale()
     })
 
     it('Test that total supply works correctly', async () => {

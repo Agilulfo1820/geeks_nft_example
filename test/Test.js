@@ -1,12 +1,13 @@
 const GeeksNFT = artifacts.require('GeeksNFT')
 const truffleAssertions = require('truffle-assertions')
 
-contract('Minting', (accounts) => {
+contract('GeeksNFT', (accounts) => {
     const deployerAccount = accounts[0]
     
     let contract
     before(async () => {
         contract = await GeeksNFT.deployed()
+        await contract.unpauseSale()
     })
 
     it('Test that name and symbol are setted correctly', async () => {
