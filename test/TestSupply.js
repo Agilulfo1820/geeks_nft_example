@@ -13,7 +13,7 @@ contract('GeeksNFT', (accounts) => {
         const oldSupply = (await contract.totalSupply()).toNumber()
         assert(oldSupply === 0)
 
-        const tx = await contract.mintNFT(accounts[1], 1)
+        const tx = await contract.mintNFT(1, {from: accounts[1]})
 
         const newSupply = (await contract.totalSupply()).toNumber()
         assert(newSupply === oldSupply + 1)
@@ -24,11 +24,11 @@ contract('GeeksNFT', (accounts) => {
     })
 
     it('Cannot mint more than max supply', async () => {
-        await contract.mintNFT(accounts[1], 4)
-        await contract.mintNFT(accounts[1], 5)
-        await contract.mintNFT(accounts[1], 5)
-        await contract.mintNFT(accounts[1], 5)
+        await contract.mintNFT( 4, {from: accounts[1]})
+        await contract.mintNFT( 5, {from: accounts[1]})
+        await contract.mintNFT( 5, {from: accounts[1]})
+        await contract.mintNFT( 5, {from: accounts[1]})
 
-        await truffleAssertions.reverts(contract.mintNFT(accounts[1], 1))
+        await truffleAssertions.reverts(contract.mintNFT(1, {from: accounts[1]}))
     })
 })

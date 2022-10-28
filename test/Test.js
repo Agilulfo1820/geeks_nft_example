@@ -23,7 +23,7 @@ contract('Minting', (accounts) => {
     })
 
     it('Supply is managed correctly when minting NFTs', async () => {
-        let tx = await contract.mintNFT(accounts[1], 1)
+        let tx = await contract.mintNFT( 1, {from: accounts[1]})
         const firstMintedTokenId = tx.logs[0].args.tokenId.toNumber()
         let nftCount = (await contract.balanceOf(accounts[1])).toNumber()
 
@@ -32,8 +32,8 @@ contract('Minting', (accounts) => {
         assert(tokenIdsOfUser.length === nftCount)
 
 
-        await contract.mintNFT(accounts[2], 1)
-        tx = await contract.mintNFT(accounts[1], 1)
+        await contract.mintNFT( 1, {from: accounts[2]})
+        tx = await contract.mintNFT( 1, {from: accounts[1]})
         const secondMintedTokenId = tx.logs[0].args.tokenId.toNumber()
   
         tokenIdsOfUser = await contract.walletOf(accounts[1])
@@ -47,7 +47,7 @@ contract('Minting', (accounts) => {
     })
 
     it('Test that tokenUri works as intended', async ()=> {
-        const tx = await contract.mintNFT(deployerAccount, 1)
+        const tx = await contract.mintNFT(1)
         const newMintedTokenId = tx.logs[0].args.tokenId.toNumber()
 
         let waitingForUnveilUri = await contract.waitingForUnveilUri()
@@ -70,5 +70,9 @@ contract('Minting', (accounts) => {
         await contract.setBaseUri('https://new-uri.com/token/', {from: deployerAccount})
         let newBaseUri = await contract.baseUri()
         assert(newBaseUri === 'https://new-uri.com/token/', 'Base uri should be updated')
+    })
+
+    it('Cannot mint more NFTs than allowed', async () => {
+        await truffleAssertions.reverts(contract.mintNFT(6, {from: accounts[1]}))
     })
 })
