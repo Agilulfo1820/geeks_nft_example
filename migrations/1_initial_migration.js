@@ -1,5 +1,5 @@
 const GeeksNFT = artifacts.require("GeeksNFT");
 
 module.exports = function (deployer) {
-  deployer.deploy(GeeksNFT);
+  deployer.deploy(GeeksNFT, 'ipfs//QmeQA62eDcT8G2WNisJs8jWctqJ4AP66ifKLWgQPoCn31N');
 };
