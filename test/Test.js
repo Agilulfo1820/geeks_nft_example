@@ -17,7 +17,12 @@ contract('Minting', (accounts) => {
         assert(symbol === 'GNFT')
     })
 
-    it('User can correctly mint NFTs', async () => {
+    it('Test that max supply is setted correctly on deploy', async () => {
+        let maxSupply = (await contract.maxSupply()).toNumber()
+        assert(maxSupply === 20)
+    })
+
+    it('Supply is managed correctly when minting NFTs', async () => {
         let tx = await contract.mintNFT(accounts[1], 1)
         const firstMintedTokenId = tx.logs[0].args.tokenId.toNumber()
         let nftCount = (await contract.balanceOf(accounts[1])).toNumber()

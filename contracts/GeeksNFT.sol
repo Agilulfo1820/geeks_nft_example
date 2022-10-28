@@ -11,13 +11,18 @@ contract GeeksNFT is ERC721, Ownable, ERC721Enumerable {
 
     string public baseUri;
     string public waitingForUnveilUri;
+    uint256 public maxSupply;
 
-    constructor(string memory _waitingForUnveilUri) ERC721('GeeksNFT', 'GNFT'){
+    constructor(string memory _waitingForUnveilUri, uint256 _maxSupply) ERC721('GeeksNFT', 'GNFT'){
         waitingForUnveilUri = _waitingForUnveilUri;
+        maxSupply = _maxSupply;
     }
 
     function mintNFT(address to, uint256 amount) public {
         uint256 currentSupply = totalSupply();
+
+        require(currentSupply + amount <= maxSupply, 'Max supply of NFTs reached.');
+
         for (uint256 i = 1; i <= amount; i++) {
             _safeMint(to, currentSupply + i);
         }

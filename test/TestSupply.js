@@ -22,4 +22,13 @@ contract('GeeksNFT', (accounts) => {
             return event.tokenId.toNumber() === newSupply
         })
     })
+
+    it('Cannot mint more than max supply', async () => {
+        await contract.mintNFT(accounts[1], 4)
+        await contract.mintNFT(accounts[1], 5)
+        await contract.mintNFT(accounts[1], 5)
+        await contract.mintNFT(accounts[1], 5)
+
+        await truffleAssertions.reverts(contract.mintNFT(accounts[1], 1))
+    })
 })
