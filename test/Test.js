@@ -18,7 +18,27 @@ contract('Minting', (accounts) => {
     })
 
     it('User can correctly mint NFTs', async () => {
-        await contract.mintNFT(accounts[1], 1)
+        let tx = await contract.mintNFT(accounts[1], 1)
+        const firstMintedTokenId = tx.logs[0].args.tokenId.toNumber()
+        let nftCount = (await contract.balanceOf(accounts[1])).toNumber()
+
+        let tokenIdsOfUser = await contract.walletOf(accounts[1])
+        tokenIdsOfUser = tokenIdsOfUser.map(id => id.toNumber())
+        assert(tokenIdsOfUser.length === nftCount)
+
+
+        await contract.mintNFT(accounts[2], 1)
+        tx = await contract.mintNFT(accounts[1], 1)
+        const secondMintedTokenId = tx.logs[0].args.tokenId.toNumber()
+  
+        tokenIdsOfUser = await contract.walletOf(accounts[1])
+        tokenIdsOfUser = tokenIdsOfUser.map(id => id.toNumber())
+
+        nftCount = (await contract.balanceOf(accounts[1])).toNumber()
+        assert(tokenIdsOfUser.length === nftCount)
+
+        assert(tokenIdsOfUser.includes(firstMintedTokenId))
+        assert(tokenIdsOfUser.includes(secondMintedTokenId))
     })
 
     it('Test that tokenUri works as intended', async ()=> {
